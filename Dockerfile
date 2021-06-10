@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-FROM adoptopenjdk/openjdk8:jdk8u275-b01-alpine
+FROM arm64v8/openjdk:8-jdk-alpine
 
 # Note: libidn is required as a workaround for addressing AWS Kinesis Producer issue
 # (https://github.com/awslabs/amazon-kinesis-producer/issues/86).
@@ -29,6 +29,7 @@ RUN apk add --update --no-cache bash \
     libuuid \
     protobuf \
     sed \
+    tar \
     sudo && \
     echo 'hosts: files mdns4_minimal [NOTFOUND=return] dns mdns4' >> /etc/nsswitch.conf
 
@@ -38,8 +39,9 @@ ARG SDC_UID=20159
 ARG SDC_GID=20159
 
 # Begin Data Collector installation
-ARG SDC_VERSION=3.16.0-SNAPSHOT
-ARG SDC_URL=http://nightly.streamsets.com.s3-us-west-2.amazonaws.com/datacollector/latest/tarball/streamsets-datacollector-core-${SDC_VERSION}.tgz
+ARG SDC_VERSION=3.20.0
+#ARG SDC_URL=http://nightly.streamsets.com.s3-us-west-2.amazonaws.com/datacollector/latest/tarball/streamsets-datacollector-core-${SDC_VERSION}.tgz
+ARG SDC_URL=https://archives.streamsets.com/datacollector/${SDC_VERSION}/tarball/activation/streamsets-datacollector-common-${SDC_VERSION}.tgz
 ARG SDC_USER=sdc
 # SDC_HOME is where executables and related files are installed. Used in setup_mapr script.
 ARG SDC_HOME="/opt/streamsets-datacollector-${SDC_VERSION}"
@@ -64,6 +66,7 @@ ENV SDC_JAVA_OPTS="-Dfile.encoding=UTF-8 -Dsun.jnu.encoding=UTF-8"
 
 # Run the SDC configuration script.
 COPY sdc-configure.sh *.tgz /tmp/
+RUN ls -ltr /tmp/
 RUN /tmp/sdc-configure.sh
 
 # Install any additional stage libraries if requested

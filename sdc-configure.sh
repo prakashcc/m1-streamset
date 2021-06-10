@@ -25,7 +25,7 @@ if [ ! -d "${SDC_DIST}" ]; then
     done
 
     mkdir "${SDC_DIST}"
-    tar xzf /tmp/sdc.tgz --strip-components 1 -C "${SDC_DIST}"
+    tar xf /tmp/sdc.tgz --strip-components 1 -C "${SDC_DIST}"
     rm -rf /tmp/sdc.tgz
 
     # Move configuration to /etc/sdc

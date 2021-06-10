@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+  streamsets:
+    build: .
+    image: streamsets-owned
+    ports:
+      - 18630:18630
