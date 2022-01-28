@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-FROM arm64v8/openjdk:8-jdk-alpine
+FROM openjdk:8-jdk-alpine
 
 # Note: libidn is required as a workaround for addressing AWS Kinesis Producer issue
 # (https://github.com/awslabs/amazon-kinesis-producer/issues/86).
